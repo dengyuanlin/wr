@@ -1,0 +1,53 @@
+alias l='ls -l'
+alias la='ls -A'
+alias ll='ls -alF'
+alias ls='ls --color=auto'
+
+alias lh='ls -lh'
+alias rmf='rm -rf'
+alias dfh='df -h'
+alias dus='du -hs'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias b='cd ..'
+alias bb='cd ../..'
+alias bbb='cd ../../..'
+alias bbbb='cd ../../../..'
+alias bbbbb='cd ../../../../..'
+alias fd='find -name'
+alias gn='grep -rni'
+
+alias ct='cd /net/ctu-simics1/opt/ctu-simics1/ydeng/vx7-cert-push/vxworks-7/pkgs/test/cert-tests'
+alias opthome='cd /opt/ctu-simics1/ydeng'
+alias opthome2='cd /opt/ctu-simics2/ydeng'
+alias cdt='cd vxworks-7/pkgs/test/cert-tests'
+alias ckwr='cd $ckwr'
+alias cpexp='cp ~/config/vxworks-7/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp'
+alias ct='cd $WIND_BASE/pkgs/test/cert-tests'
+alias cw='cd $WIND_BASE'
+alias wb='echo WindBase=$WIND_BASE'
+
+alias ea='to.workspace;grep -E '\'': error'\'' build-vsb.log;cd -'
+alias eb='to.workspace;grep -E '\''] Error'\'' build-vsb.log;cd -'
+alias ec='grep -i warning $WIND_BASE/workspace/a.log'
+alias ecc='grep -i warning $WIND_BASE/workspace/vsb-fsl_imx6/build-vsb.log'
+alias ed='grep -i warning $WIND_BASE/workspace/a.log|wc -l'
+alias edd='grep -i warning $WIND_BASE/workspace/vsb-fsl_imx6/build-vsb.log|wc -l'
+alias ee='to.workspace;grep -E '\'': error|] Error'\'' build-vsb.log;cd -'
+alias eee='to.workspace;grep -E '\'': error|] Error'\'' vsb-fsl_imx6/build-vsb.log;cd -'
+alias fc='find -name "*.c"  ! -name "tl*.c"|sort -n'
+alias fcc='find -name "*.c"  ! -name "tl*.c"|sort -n|wc'
+alias gs='grep TDK_CERT_FUNC_STUB'
+alias sc='gs tm*.c|awk '\''{print $1}'\'' |sort -u'
+alias scc='gs tm*.c|awk '\''{print $1}'\'' |sort -u|sort -n|wc'
+alias topb='cd $topb'
+alias llt='cd $top; ls -l ..;cd -; echo -e "=============\n";ls -l $top'
+
+alias git.cid='git commit --date="$(date)" -m'
+alias git.cim='git commit --amend --date="$(date)" '
+
+
+source ~/tcfunc
+alias wr='cd $wr'
+

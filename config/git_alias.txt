@@ -1,0 +1,47 @@
+#======== config user =========
+ssh-keygen -t rsa -C "xx@yy.com"
+
+~/.ssh/id_rsa.pub should be saved in server.
+
+git config --global user.name  "xx"
+git config --global user.email "xx@yy.com"
+
+git clone git@github.com:dengyuanlin/wr.git
+
+
+#======== config alias =========
+
+
+git config --global alias.lgw "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+git config --global user.email "Yuanlin.Deng@windriver.com"
+git config --global user.name  "ydeng"
+
+git config --global diff.tool vimdiff
+git config --global difftool.prompt false
+git config --global merge.tool vimdiff
+git config --global mergetool.prompt false
+
+git config --global alias.st status
+git config --global alias.co checkout
+git config --global alias.ci commit
+git config --global alias.br branch
+git config --global alias.ss show
+git config --global alias.df diff
+git config --global alias.last 'log -1'
+git config --global alias.lg  "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit"
+git config --global alias.rv 'remote -v'
+git config --global alias.lgst 'log --stat'
+
+git config --global alias.dflast 'diff HEAD^..HEAD'
+git config --global alias.dfl 'diff HEAD^..HEAD'
+git config --global alias.dfh 'diff HEAD'
+git config --global alias.dfs 'diff --staged'
+
+git config --global alias.plma 'pull --rebase'
+git config --global alias.plrb 'pull --rebase'
+git config --global alias.rbco 'rebase --continue'
+git config --global alias.ma 'checkout vx7-cert'
+git config --global alias.rbma 'rebase vx7-cert'
+
+

@@ -1,0 +1,146 @@
+export wr=/net/ctu-simics1/opt/ctu-simics1/ydeng/config/wr
+export PATH=~/tools/bin/:$PATH
+
+# setting my bak path
+if [ `hostname` == "ctu-simics1" ]; then
+    export opthome="/opt/ctu-simics1/ydeng"
+elif [ `hostname` == "ctu-simics2" ]; then
+    export opthome="/net/ctu-simics1/opt/ctu-simics1/ydeng"
+fi
+export top=$opthome/bak/current/
+export topb=$opthome/bak
+export ckwr=/opt/ctu-simics1/ydeng/vx7-checkin/vxworks-7/pkgs/test/cert-tests
+
+function myprevent () {
+    /folk/chengdu/tools/Coverity/Prevent/prevent.pl make VSB_DIR=$WIND_BASE/workspace/vsb-fsl_imx6
+}
+
+function cf () {
+    if [ -z $1 ]; then
+        printf "need tsc name.\n"
+        return
+    fi
+
+    ct
+    fd $1 |xargs dirname  >$topb/cf.txt
+    cat   $topb/cf.txt
+    cd `cat   $topb/cf.txt`
+}
+
+function run.allmine () {
+    if [ -z $1 ]; then
+        printf "need component name.\n"
+        return
+    fi
+
+    if [ -z $2 ]; then
+        #reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cpexp
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1; run.vip
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    elif [ "s" == "$2" ]; then
+        #reset
+        printf "=================================================================\n\n\n"
+        printf "\n\n\n\n\nmydebug in simics\n"
+        cm.vsb_qsp_arm_debug ; cm.vip vsb-qsp_arm-debug/ $1
+    elif [ "ss" == "$2" ]; then
+        #reset
+        printf "=================================================================\n\n\n"
+        printf "\n\n\n\n\nmydebug in simics, and run in board\n"
+        cm.vsb_qsp_arm_debug ; cm.vip vsb-qsp_arm-debug/ $1
+        printf "=================================================================\n\n\n"
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cpexp
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1; run.vip
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    elif [ "sa" == "$2" ]; then
+        #reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        printf "=================================================================\n\n\n"
+        cpexp
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1; run.vip
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+        printf "=================================================================\n\n\n"
+        printf "\n\n\n\n\nmydebug in simics, and run in board\n"
+        cm.vsb_qsp_arm_debug ; cm.vip vsb-qsp_arm-debug/ $1
+    elif [ "a" == "$2" ]; then
+        #reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cpexp
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1; run.vip
+        printf "=================================================================\n\n\n"
+        run.ldra -c $1
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    else
+        cpexp
+        run.ldra -c $1
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    fi
+}
+
+function run.debug_simics () {
+    if [ -z $1 ]; then
+        printf "need component name.\n"
+        return
+    fi
+
+    cm.vsb_qsp_arm_debug ; cm.vip vsb-qsp_arm-debug/ $1
+}
+
+function runall.in.one () {
+    if [ -z $1 ]; then
+        printf "need component name.\n"
+        return
+    fi
+
+    run.allmine $1
+    printf "=================================================================\n\n\n"
+    run.ldra -c $1
+}
+
+function ccr.git () {
+    if [ -z $1 ]; then
+        printf "need ccrid.\n"
+        return
+    fi
+
+    printf "ccollab addgitdiffs $1 HEAD^..HEAD\n"
+    ccollab addgitdiffs $1 HEAD^..HEAD
+}
+
+function ccr.prevent () {
+    if [ -z $2 ]; then
+        printf "need ccrid.\n"
+        return
+    fi
+
+    printf "ccollab addfiles $1 $2 --relative-to ~\n"
+    ccollab addfiles $1 $2 --relative-to ~
+}
+
+function ccr.ldra () {
+    if [ -z $2 ]; then
+        printf "need ccrid.\n"
+        return
+    fi
+
+    printf "ccollab addfiles $1 $2 --relative-to `dirname $2`\n"
+    ccollab addfiles $1 $2 --relative-to `dirname $2`
+}
+
+
+function ccr.urls () {
+    if [ -z $2 ]; then
+        printf "need ccrid.\n"
+        return
+    fi
+
+    printf "ccollab addurls $1 $2 \n"
+    ccollab addurls $1 $2
+}
