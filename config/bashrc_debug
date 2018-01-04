@@ -46,6 +46,7 @@ alias llt='cd $top; ls -l ..;cd -; echo -e "=============\n";ls -l $top'
 
 alias git.cid='git commit --date="$(date)" -m'
 alias git.cim='git commit --amend --date="$(date)" '
+alias git.me='git log --stat --committer=ydeng'
 
 
 source ~/tcfunc
