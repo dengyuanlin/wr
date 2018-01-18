@@ -33,7 +33,20 @@ function run.allmine () {
         return
     fi
 
-    if [ -z $2 ]; then
+    #if [ "h" == "$1" ]; then
+    #if [ "h" == "$2"]  || [ "h" == "$1" ]; then
+    if [ "-h" == "$2" -o  "-h" == "$1" -o  "h" == "$2" -o  "h" == "$1" ]; then
+        printf "=================================================================\n"
+        printf "run.allmine component\n"
+        printf "run.allmine component option\n"
+        printf "option:\n"
+        printf "s :simics only \n"
+        printf "a :board and ldra\n"
+        printf "ss:simics first, board second\n"
+        printf "sa:board  first, simics second\n"
+        printf "other: ldra\n"
+        printf "=================================================================\n"
+    elif [ -z $2 ]; then
         #reset
         rm -rf /opt/simics/image/ydeng/vxWorks.bin
         cpexp
