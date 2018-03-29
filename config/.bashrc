@@ -16,9 +16,9 @@ PS1='[\u@\H \e[0;33m\w\e[0m\e[0;32m$(curr_git_branch)\e[0m]\n\$'
 #####################################################
 # Configurations for cross servers
 #
-if [ `hostname` == "ctu-testbuild1" ]; then                                      
+if [ `hostname` == "ctu-testbuild1" ]; then
     export my_vx7_WORKSPACEs="/ctu-testbuild1_01/buildarea1/gdong/vx7-repositories/vx7-cert-push:/ctu-testbuild1_01/buildarea1/gdong/vx7-repositories/vx7-cert-push-debug"
-elif [ `hostname` == "ctu-testbuild2" ]; then                                    
+elif [ `hostname` == "ctu-testbuild2" ]; then
     export my_vx7_WORKSPACEs="/ctu-testbuild2_01/buildarea/gdong/vx7-repositories/vx7-cert-push"
 elif [ `hostname` == "ctu-simics1" ]; then
     export my_vx7_WORKSPACEs="/opt/ctu-simics1/ydeng/vx7-cert-push"

@@ -52,3 +52,6 @@ alias git.me='git log --stat --committer=ydeng'
 source ~/tcfunc
 alias wr='cd $wr'
 
+
+#for arm assembly
+alias armobjdump_mine='arm-none-linux-gnueabi-objdump'

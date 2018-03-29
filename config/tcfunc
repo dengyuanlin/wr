@@ -155,5 +155,17 @@ function ccr.urls () {
     fi
 
     printf "ccollab addurls $1 $2 \n"
+    sleep 3
     ccollab addurls $1 $2
+}
+
+
+function ccr.tmout () {
+    if [ -z $1 ]; then
+        printf "need ccrid.\n"
+        return
+    fi
+
+    printf "ccollab addfiles $1 $2 --relative-to $WIND_BASE/../ \n"
+    ccollab addfiles $1 $2 --relative-to  $WIND_BASE/../
 }
