@@ -7,8 +7,8 @@ map <silent> <leader>ee :e ~/.vimrc<cr>
 
 "let g:ctrlp_map = '<leader>p'
 "let g:ctrlp_cmd = 'CtrlP'
-map <leader>f :CtrlPMRU<CR>
-map <leader>p :CtrlPMixed<CR>
+"map <leader>f :CtrlPMRU<CR>
+"map <leader>p :CtrlPMixed<CR>
 
 set tw=80 fo+=Mm "auto cr, textwidth-80
 set cc=80        "highlight 80 columns
@@ -23,6 +23,11 @@ map <leader>u <ESC>gg/dyl<cr>wDaMatched DFRs and tsc<esc>jdd
 map <leader>c <ESC>o<ESC>o/* Case 1 */<ESC>o<ESC>j
 map <leader>d <ESC>$a /* Call FUT */<ESC>
 map <leader>dd <ESC>o<ESC>o/* Case 2: Call FUT without any stubbing */<ESC>o<ESC>j
+
+"comment one line
+map <leader>f <ESC>^i//<ESC>
+"uncomment one line
+map <leader>s <ESC>^xx<ESC>
 
 set tags=tags;/
 let g:tagbar_ctags_bin='~/tools/bin/ctags'
