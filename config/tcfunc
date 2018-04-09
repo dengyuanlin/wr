@@ -89,6 +89,14 @@ function run.allmine () {
         run.ldra -c $1
         printf "=============================bootBoard.exp recovery====================================\n"
         git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    elif [ "1" == "$2" ]; then
+        #reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cpexp
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
+        printf "=================================================================\n\n\n"
+        printf "=============================bootBoard.exp not recovery====================================(one core)=====\n"
+        #git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
     else
         cpexp
         run.ldra -c $1
@@ -166,6 +174,6 @@ function ccr.tmout () {
         return
     fi
 
-    printf "ccollab addfiles $1 $2 --relative-to $WIND_BASE/../ \n"
-    ccollab addfiles $1 $2 --relative-to  $WIND_BASE/../
+    printf "ccollab addfiles $1 $2 --relative-to `cd $WIND_BASE/../;pwd` \n"
+    ccollab addfiles $1 $2 --relative-to `cd $WIND_BASE/../;pwd`
 }
