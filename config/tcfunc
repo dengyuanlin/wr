@@ -42,9 +42,12 @@ function run.allmine () {
         printf "option:\n"
         printf "s :simics only \n"
         printf "a :board and ldra\n"
+        printf "all :board in multi and single core, and ldra\n"
+        printf "1 :board in single core\n"
+        printf "1a :board in single core and ldra\n"
         printf "ss:simics first, board second\n"
         printf "sa:board  first, simics second\n"
-        printf "other: ldra\n"
+        printf "other: ldra in one core\n"
         printf "=================================================================\n"
     elif [ -z $2 ]; then
         #reset
@@ -104,6 +107,22 @@ function run.allmine () {
         cpexp
         cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
         printf "=================================================================\n\n\n"
+        run.ldra -c $1 -n 1
+        printf "=============================bootBoard.exp recovery====================================(one core)=====\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    elif [ "all" == "$2" ]; then
+        reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cpexp
+        printf "==============================run in multicore start===================================\n\n\n"
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 ; run.vip
+        printf "==============================run in multicore end, cp tm_out.txt tm_out_4.txt ===================================\n\n\n"
+        cp tm_out.txt tm_out_4.txt -v
+        sleep 1
+        printf "==============================run in single core===================================\n\n\n"
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
+        printf "==============================run in single core end===================================\n\n\n"
+        sleep 1
         run.ldra -c $1 -n 1
         printf "=============================bootBoard.exp recovery====================================(one core)=====\n"
         git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
