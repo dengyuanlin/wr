@@ -33,6 +33,8 @@ function run.allmine () {
         return
     fi
 
+    VIP_FLAG="--nb-cpus 4"
+
     #if [ "h" == "$1" ]; then
     #if [ "h" == "$2"]  || [ "h" == "$1" ]; then
     if [ "-h" == "$2" -o  "-h" == "$1" -o  "h" == "$2" -o  "h" == "$1" ]; then
@@ -51,10 +53,19 @@ function run.allmine () {
         printf "other: ldra in one core\n"
         printf "=================================================================\n"
     elif [ -z $2 ]; then
+        reset
+        rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 $VIP_FLAG; run.vip
+        cpexp
+        printf "=============================bootBoard.exp recovery====================================\n"
+        git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
+    elif [ "4" == $2 ]; then
         #reset
         rm -rf /opt/simics/image/ydeng/vxWorks.bin
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log -v; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 4; run.vip
+        sleep 1
         cpexp
-        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1; run.vip
+        run.ldra -c $1 -n 4
         printf "=============================bootBoard.exp recovery====================================\n"
         git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
     elif [ "s" == "$2" ]; then
@@ -114,24 +125,26 @@ function run.allmine () {
     elif [ "a2" == "$2" ]; then
         reset
         rm -rf /opt/simics/image/ydeng/vxWorks.bin
-        printf "==============================run in multicore start===================================\n\n\n"
-        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 ; run.vip
+        printf "==============================run in multicore start==========$1=========================\n\n\n"
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 4; run.vip
         printf "==============================run in multicore end, cp tm_out.txt tm_out_4.txt ===================================\n\n\n"
         cp tm_out.txt tm_out_4.txt -v
         sleep 1
-        printf "==============================run in single core===================================\n\n\n"
-        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
+        printf "==============================run in single core==============$1=====================\n\n\n"
+        cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
         printf "==============================run in single core end===================================\n\n\n"
     elif [ "all" == "$2" ]; then
         reset
         rm -rf /opt/simics/image/ydeng/vxWorks.bin
-        printf "==============================run in multicore start===================================\n\n\n"
-        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 ; run.vip
+        printf "==============================run in multicore start==========$1=========================\n\n\n"
+        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 4; run.vip
         printf "==============================run in multicore end, cp tm_out.txt tm_out_4.txt ===================================\n\n\n"
-        cp tm_out.txt tm_out_4.txt -v
+        #cp tm_out.txt tm_out_4.txt -v
+        cp $PWD/tm_out.txt $PWD/tm_out_4.txt -v
         sleep 1
-        printf "==============================run in single core===================================\n\n\n"
-        cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
+        printf "==============================run in single core==============$1=====================\n\n\n"
+        #cm.vsb_fsl_imx6; to.workspace; cp -af vsb-fsl_imx6/build-vsb.log a.log; cd -;   cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
+        cm.vip vsb-fsl_imx6/ $1 --nb-cpus 1; run.vip
         printf "==============================run in single core end===================================\n\n\n"
         sleep 1
         cpexp
@@ -140,7 +153,7 @@ function run.allmine () {
         git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
     else
         cpexp
-        run.ldra -c $1 -n 1
+        run.ldra -c $1 -n 4
         printf "=============================bootBoard.exp recovery====================================\n"
         git checkout $WIND_BASE/pkgs/test/vxtestv2/bspvts/scripts/bootBoard.exp
     fi
