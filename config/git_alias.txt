@@ -48,6 +48,9 @@ git config --global alias.rbma 'rebase vx7-cert'
 #=======apply watch=======
 #with *.rej refer to conflict files
 patch -p1 <xxx.patch
-git apply --reject --ignore-whiteapace xxx.patch
+git apply --reject --whitespace=fix xxx.patch #will eliminate whitespace and blank line.
 
+#=======git cmd===========
+git reset --hard HEAD
+git clean -dfx
 
